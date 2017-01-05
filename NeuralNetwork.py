@@ -1,3 +1,9 @@
+"""
+NeuralNetwork.py
+A neural network (using my library) classifier to identify handwritten digits.
+"""
+__author__ = "Copyright (C) 2016 Jared Levy"
+
 from __future__ import print_function
 from __future__ import division
 import csv
@@ -29,6 +35,8 @@ def ShowProgressDot ( xk ) :
 ################################################################################
 
 def main () :
+  ## The train and test files were too large to upload to github
+  ## Can find on kaggle
   read = pandas.read_csv ( 'train.csv' )
   X2 = np.array ( read )
   X = X2[:,1:]
