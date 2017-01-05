@@ -1,3 +1,9 @@
+"""
+TFNeuralNetwork.py
+A neural network classifier using tensorflow to classify handwritten digits.
+"""
+__author__ = "Copyright (C) 2016 Jared Levy"
+
 from __future__ import division
 from __future__ import print_function
 import tensorflow as tf
@@ -5,8 +11,10 @@ import pandas
 import numpy as np
 import csv
 
+## Train and test files were too large to upload to github
 read = pandas.read_csv('train.csv')
 testRead = pandas.read_csv('test.csv')
+## Data preperation
 T = np.array(testRead)
 T = T.astype(float)
 for i in range ( T.shape[0] ) :
@@ -23,6 +31,8 @@ Y = np.zeros((42000, 10))
 for i in range(Yknot.shape[0]) :
   for j in range(Yknot.shape[1]) :
     Y[i, Yknot[i, j]] = 1
+
+##################################################
 
 sess = tf.InteractiveSession()
 
@@ -56,6 +66,7 @@ for i in range ( hypothesis.shape[0] ) :
     if hypothesis[i, j] == hypothesis[i, np.argmax ( hypothesis[i,:] )] :
       prediction[i] = np.argmax ( hypothesis[i,:] )
 
+## Creating submission file
 submitFile = np.zeros ( ( T.shape[0], 1 ) )
 for i in range ( prediction.shape[0] ) :
   for j in range ( prediction.shape[1] ) :
