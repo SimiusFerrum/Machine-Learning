@@ -125,7 +125,7 @@ def main () :
       print ( '%d,%d' % ( i + 1, submitFile[i, j] ), file=outFile )
   outFile.close()
   print ( 'Done' )  
-  ## got ~85%
+  ## got ~85% accuracy
   
 ################################################################################
 
