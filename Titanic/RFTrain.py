@@ -1,5 +1,5 @@
 """
-RandomForest.py
+RFTrain.py
 A random forest classifier to determine the survivors of the titanic.
 """
 __author__ = "Copyright (C) 2016 Jared Levy"
@@ -12,7 +12,7 @@ import numpy as np
 import sys
 import collections 
 
-## uses code from library created 
+## uses code from random forest library
 
 ML.Initialize()
 
