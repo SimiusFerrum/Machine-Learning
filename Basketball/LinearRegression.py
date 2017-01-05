@@ -5,12 +5,12 @@ A logistic-regression classifier to predict the chance I make a shot from varyin
 __author__ = "Copyright (C) 2016 Jared Levy"
 
 from   Imports import *
-import ML
+import LogisticRegressionLib 
 
 def main () :
-
+  ## uses a logistical regression library I wrote
   ## initialize random number generators and interactive plotting
-  ML.Initialize()
+  LogisticRegressionLib.Initialize()
 
   ## load the training examples
   Xy = numpy.loadtxt ( "Data/Shots.txt", dtype=float, delimiter=',' )
@@ -53,19 +53,19 @@ def main () :
   )
   matplotlib.pyplot.legend ( loc="upper right", numpoints=1, fontsize=11 )
   matplotlib.pyplot.draw   ()
-  ML.Pause()
+  LogisticRegressionLib.Pause()
 
   ## save the un-prepended/normalized version for plotting later
   Xu = X
 
   ## prepend a column of ones to X for bias
-  X = ML.PrependOnes ( X )
+  X = LogisticRegressionLib.PrependOnes ( X )
   n += 1
 
   ## perform mean normalization and feature scaling
   ## mu = average of each column of X
   ## sg = sigma (standard deviation) of each column of X
-  X, mu, sg = ML.Normalize ( X )
+  X, mu, sg = LogisticRegressionLib.Normalize ( X )
   ## print ( "mu =", mu )
   ## print ( "sg =", sg )
 
@@ -79,7 +79,7 @@ def main () :
   ## optimize theta
   ## if the CG method doesn't converge, try BFGS instead
   result = scipy.optimize.minimize (
-    ML.LogisticRegressionCostFunction, theta, args, method="BFGS", jac=True,
+    LogisticRegressionLib.LogisticRegressionCostFunction, theta, args, method="BFGS", jac=True,
   )
   if not result.success : raise Exception()
   print ( "number of iterations = %d" % result.nit )
@@ -88,16 +88,16 @@ def main () :
 
   ## try a 'made' prediction at distance=10
   x = numpy.array ( [1, (10-mu[1])/sg[1]], dtype=float )
-  prediction = ML.Sigmoid(x.dot(theta))
+  prediction = LogisticRegressionLib.Sigmoid(x.dot(theta))
   print ( "prediction at 10 feet = %.3f" % prediction )
 
   ## try a 'missed' prediction at distance=20
   x = numpy.array ( [1, (20-mu[1])/sg[1]], dtype=float )
-  prediction = ML.Sigmoid(x.dot(theta))
+  prediction = LogisticRegressionLib.Sigmoid(x.dot(theta))
   print ( "prediction at 20 feet = %.3f" % prediction )
 
   ## plot the sigmoid (the logistic function)
-  h = ML.Sigmoid(X.dot(theta))
+  h = LogisticRegressionLib.Sigmoid(X.dot(theta))
   ## print ( "Xu =", Xu )
   ## print ( "X  =", X  )
   ## print ( "h  =", h )
@@ -120,10 +120,10 @@ def main () :
   ## ask for user input and make a prediction with the input
   userInp = input ( "Enter a distance from the hoop " )
   inputMath = numpy.array ( [1, (userInp-mu[1])/sg[1]], dtype=float )
-  inputProbability = ML.Sigmoid(inputMath.dot(theta))
+  inputProbability = LogisticRegressionLib.Sigmoid(inputMath.dot(theta))
   print ( "The probability is: %.3f" % inputProbability )
   
-  ML.Pause()
+  LogisticRegressionLib.Pause()
 
 ################################################################################
 
