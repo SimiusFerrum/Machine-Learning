@@ -1,5 +1,5 @@
 """
-NeuralNetwork.py
+Train.py
 A neural network (using my library) classifier to identify handwritten digits.
 """
 __author__ = "Copyright (C) 2016 Jared Levy"
@@ -24,7 +24,7 @@ import time
 import warnings
 import csv
 import pandas
-import ML
+import NeuralNetworkLib
 
 ################################################################################
 
@@ -35,6 +35,7 @@ def ShowProgressDot ( xk ) :
 ################################################################################
 
 def main () :
+  ## program uses Neural Network library I wrote
   ## the train and test files were too large to upload to github
   ## can find on kaggle
 
