@@ -6,7 +6,7 @@ __author__ = "Copyright (C) 2016 Jared Levy"
 
 from __future__ import print_function
 from Imports import *
-import ML
+import RandomForestLib
 import pandas
 import numpy as np
 import sys
