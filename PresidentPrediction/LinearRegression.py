@@ -1,6 +1,6 @@
 #!/usr/bin/env python2 -B -O
 """
-PresidentPrediction
+LinearRegression.py
 A linear-regression model to predict the president who will win california in 2016-17
 """
 __author__ = "Copyright (C) 2016 Jared Levy"
