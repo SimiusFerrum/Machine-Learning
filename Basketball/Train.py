@@ -13,7 +13,7 @@ def main () :
   ML.Initialize()
 
   ## load the training examples
-  Xy = numpy.loadtxt ( "ShotsData.txt", dtype=float, delimiter=',' )
+  Xy = numpy.loadtxt ( "Data/Shots.txt", dtype=float, delimiter=',' )
 
   ## get the number of training examples
   m = Xy.shape[0]
