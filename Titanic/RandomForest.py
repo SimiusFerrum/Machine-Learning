@@ -12,6 +12,8 @@ import numpy as np
 import sys
 import collections 
 
+## uses code from library created 
+
 ML.Initialize()
 
 read_test = pandas.read_csv ( "test.csv", quotechar='"' )
@@ -30,8 +32,9 @@ X = X.astype ( object )
 X1 = np.empty ( ( read_test.shape[0], num_features ) )
 X1 = X1.astype ( object )
 
-## extracting the features from the data
+## extracting the features from the training data
 X[:,0] = read_train["Name"]
+## fill in missing data
 read_train["Pclass"].fillna('?')
 X[:,1] = read_train["Pclass"].fillna('?')
 X[:,2] = read_train["Sex"]
@@ -41,6 +44,7 @@ read_train["Embarked"].fillna('?')
 X[:,5] = read_train["Embarked"].fillna('?')
 X[:,6] = read_train["Fare"]
 
+## extracting the features from the test data
 X1[:,0] = read_test["Name"]
 read_test["Pclass"].fillna('?')
 X1[:,1] = read_test["Pclass"].fillna('?')
@@ -68,7 +72,7 @@ for i in range ( 0, num_examples_test ) :
   prediction_test[i, 0] = i
   prediction_test[i, 1] = hypothesis_test
 
-## generate random forest
+## generate a random forest
 numberTrees = 300
 num_features_forest = math.ceil ( math.sqrt ( float ( num_features ) ) )
 forest = []
@@ -100,7 +104,7 @@ for i in range ( 0, num_examples_test ) :
 for i in range ( rf_prediction.shape[0] ) :
   rf_prediction[i, 0] = rf_prediction[i, 0] + 1
 
-
+## create the submission file
 submitFile = rf_prediction[:,1:]
 outFile = open ( 'submit.csv', 'w' )
 print ( 'PassengerId,Survived', file=outFile )
