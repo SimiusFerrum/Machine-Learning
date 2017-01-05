@@ -1,5 +1,5 @@
 """
-Train.py
+LogRegTrain.py
 A logistic-regression classifier to predict the chance I make a shot from varying distances.
 """
 __author__ = "Copyright (C) 2016 Jared Levy"
