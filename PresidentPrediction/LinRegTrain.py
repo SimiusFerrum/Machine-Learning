@@ -1,15 +1,16 @@
 #!/usr/bin/env python2 -B -O
 """
-LinearRegression.py
+LinRegTrain.py
 A linear-regression model to predict the president who will win california in 2016-17
 """
 __author__ = "Copyright (C) 2016 Jared Levy"
 
 from Imports import *
-import ML
+import LinearRegressionLib
 
 def main () :
-
+	
+	## uses linear regression library
 	## initialize random number generators and interactive plotting
 	ML.Initialize()
 	
