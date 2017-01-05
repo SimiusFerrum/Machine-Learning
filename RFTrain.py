@@ -1,3 +1,9 @@
+"""
+RandomForest.py
+A random forest classifier.
+"""
+__author__ = "Copyright (C) 2016 Jared Levy"
+
 from __future__ import print_function
 from Imports import *
 import ML
