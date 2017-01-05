@@ -1,6 +1,6 @@
 """
 RandomForest.py
-A random forest classifier.
+A random forest classifier to determine the survivors of the titanic.
 """
 __author__ = "Copyright (C) 2016 Jared Levy"
 
