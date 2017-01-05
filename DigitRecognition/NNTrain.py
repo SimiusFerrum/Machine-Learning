@@ -1,5 +1,5 @@
 """
-Train.py
+NNTrain.py
 A neural network (using my library) classifier to identify handwritten digits.
 """
 __author__ = "Copyright (C) 2016 Jared Levy"
