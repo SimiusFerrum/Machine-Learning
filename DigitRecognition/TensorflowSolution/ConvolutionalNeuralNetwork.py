@@ -100,7 +100,7 @@ layer2 = tensorflow.nn.relu ( tensorflow.matmul ( flatten, Weights_feature_const
 
 keep_prob = tensorflow.placeholder ( tensorflow.float32 )
 ## utilize dropout to avoid overfitting
-dropout = tf.nn.dropout ( layer2, keep_prob )
+dropout = tensorflow.nn.dropout ( layer2, keep_prob )
 
 Weights_feature_construction2 = weight_variable ( [1024, 10] )
 bias_feature_construction2 = bias_variable ( [10] )
@@ -124,7 +124,7 @@ for i in range(200):
   train.run ( feed_dict={ x: X[be: en, :], y: Y[be: en, :], keep_prob: 0.5 } )
 
 ## propogate the test data through the cnn
-hypothesis = sess.run ( softmax, feed_dict = { x: T, keep_prob: 0.5 } )
+hypothesis = session.run ( softmax, feed_dict = { x: T, keep_prob: 0.5 } )
 prediction = np.zeros ( ( T.shape[0], 1 ) )
 
 for i in range ( hypothesis.shape[0] ) :
