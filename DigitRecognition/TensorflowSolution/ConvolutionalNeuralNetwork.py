@@ -45,9 +45,9 @@ for i in range ( Yknot.shape[0] ) :
 
 session = tensorflow.InteractiveSession()
 
-## X is a placeholder for the inputted image arrays
+## x is a placeholder for the inputted image arrays
 x = tensorflow.placeholder ( tensorflow.float32, shape=[None, 784] )
-## y is a placeholder for the targetted output classifications (10)
+## y is a placeholder for the output classifications (10)
 y = tensorflow.placeholder ( tensorflow.float32, shape=[None, 10] )
 
 session.run ( tensorflow.initialize_all_variables() )
