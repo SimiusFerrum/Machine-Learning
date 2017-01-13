@@ -1,7 +1,7 @@
 from __future__ import print_function
 """
 MovieRecommender
-( My program of Exercise 8 of Andrew Ng's ML course in Python )
+( My program of Exercise 8 of Andrew Ng's ML course )
 A recommender system via collaborative filtering.
 """
 __author__ = "Copyright (C) 2016 Jared Levy"
