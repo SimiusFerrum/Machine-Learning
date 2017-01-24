@@ -1,0 +1,1 @@
+This project I wrote during the 2016 - 2017 presidential election. I was interested in predicting the outcome of the results in California, so I combined what I was learning in machine learning to try and predict a victor.
