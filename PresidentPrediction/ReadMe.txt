@@ -1,1 +1,1 @@
-This project I wrote during the 2016 - 2017 presidential election. I was interested in predicting the outcome of the results in California, so I combined what I was learning in machine learning to try and predict a victor.
+This project I wrote during the 2016 - 2017 presidential election. I had read many poll results and was interested in their validity, so I wrote a program to try and determine the outcome of the election in California.  I compared the result of my program with poll results as well as the election results.
