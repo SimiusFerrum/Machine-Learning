@@ -1,3 +1,1 @@
-I enjoy basketball and thought it would be fun to utilize what I was working on in machine learning to determine the probability
-I make a shot from varying distances on the basketball court.  The data used was actual data I took after a basketball session at
-the gym. 
+I enjoy basketball and thought it would be fun to utilize what I was working on in machine learning to determine the probability I make a shot from varying distances on the basketball court.  The data used was actual data I took after a basketball session at the gym. 
