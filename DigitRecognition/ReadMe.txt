@@ -1,0 +1,3 @@
+I have always had really bad handwriting, so I thought it would be interesting to try and implement a neural network to recognize 
+handwritten digits.  The test data is a mix of pictures from online as well as numbers I wrote on a graphics tablet.  For the
+Kaggle competition, I used their provided dataset.
