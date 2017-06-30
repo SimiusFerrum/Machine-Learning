@@ -1,0 +1,182 @@
+from __future__ import print_function
+from __future__ import division
+import itertools
+import numpy as np
+import math
+import pickle as pkl
+
+def main () :
+  TrainComputer()
+
+
+def TrainComputer () :
+  Q = {}
+  for i in range(3**42) : ## Should be 3**42
+    ii = i
+    state = ''
+    for j in range(42) :
+      state = state + str ( ii % 3 )
+      ii = ii // 3
+    Q[state] = {}
+    for j in range(42) :
+      if state[j] != '0' :
+        Q[state][j] = - float('inf')
+      else :
+        Q[state][j] = 0.0
+
+  for i in reversed(range(0,11,2)) :
+    epsilon = 0.1 * float(i)
+    Train ( epsilon, 1, Q )
+
+  outputFile = open ( 'qConnectFour.pkl', 'wb' )
+  pkl.dump ( Q, outputFile )
+  outputFile.close()
+  print ( 'saved Q table to file \'qConnectFour.pkl\'' )
+
+
+def Train ( epsilon, nGames, Q ) :
+  reward1Sum = 0.0
+  initP = '1'
+  for iGame in range(nGames) :
+    player = initP
+    if initP == '1' :
+      initP = '2'
+    elif initP == '2' :
+      initP = '1'
+    else :
+      raise Exception ( 'invalid initial player' )
+
+    state = '000000000000000000000000000000000000000000'
+    gameHistory = []
+    while True :
+      if player == '1' :
+        presentState = state
+      elif player == '2' :
+        presentState = ''
+        for i in range(42) :
+          if state[i] == '0' :
+            presentState = presentState + state[i]
+          elif state[i] == '1' :
+            presentState = presentState + '2'
+          elif state[i] == '2' :
+            presentState = presentState + '1'
+          else :
+	    raise Exception ( 'impossible board' )
+
+      if np.random.rand() < epsilon :
+        A = np.random.permutation(42)
+        action = -1
+        for i in range(42) :
+          if state[A[i]] == '0' :
+            action = A[i]
+            break
+        if action == -1 :
+          raise Exception ( 'illegal move' )
+      else :
+        A = sorted ( Q[presentState], key=Q[presentState].get, reverse=True )
+        L = []
+        for i in range(42) :
+          if Q[presentState][A[i]] == Q[presentState][A[0]] :
+            L.append ( A[i] )
+        action = np.random.choice(L)
+      if state[action] != '0' :
+        raise Exception ( 'illegal move' )
+
+      newState = ''
+      for i in range(42) :
+        if i == action :
+          newState = newState + player
+        else :
+          newState = newState + state[i]
+    
+      gameHistory.append ( ( presentState, action, player ) ) 
+
+      reward1, reward2, finished = GetReward ( newState )
+      if finished :
+        reward1Sum = reward1Sum + reward1
+        break
+
+      state = newState
+      if player == '1' :
+        player = '2'
+      elif player == '2' :
+        player = '1'
+      else :
+        raise Exception ( 'illegal  player' )
+
+    alpha = 0.01
+    for h in reversed(gameHistory) :
+      presentState, action, player = h
+      if player == '1' :  
+        Q[presentState][action] = Q[presentState][action] + alpha * ( reward1 - Q[presentState][action] )
+      elif player == '2' :
+        Q[presentState][action] = Q[presentState][action] + alpha * ( reward2 - Q[presentState][action] )
+      else :
+        raise Exception ( 'illegal  player' )
+
+  print ( 'epsilon=%.1f, nGames=%d, rSum=%g' % ( epsilon, nGames, reward1Sum ) )
+
+
+def determineWinningCoordinates () :
+  board = [[0,  1,  2,  3,  4,  5,  6], 
+           [7,  8,  9,  10, 11, 12, 13], 
+           [14, 15, 16, 17, 18, 19, 20],
+	   [21, 22, 23, 24, 25, 26, 27], 
+           [28, 29, 30, 31, 32, 33, 34], 
+           [35, 36, 37, 38, 39, 40, 41]]
+  
+  dW = []
+  cDW = []
+  for r in range(3) :
+    for c in range(4) :
+      for i in range(4) :
+        cDW.append ( board[r+i][c+i] )
+      dW.append ( cDW )
+      cDW = []
+  uDW = []
+  cUDW = []
+  for r in range(5,2,-1) :
+    for c in range(4) :
+      for i in range(4) :
+        cUDW.append ( board[r-i][c+i] )
+      uDW.append ( cUDW )
+      cUDW = []
+
+  hW = []
+  cHW = []
+  for r in board :
+    for i in range(4) :
+      for j in range(4) :
+        cHW.append ( r[i+j] ) 
+      hW.append ( cHW )
+      cHW = []
+
+  vW = []
+  cVW = []
+  for r in range(3) :
+    for c in range(7) :
+      for j in range(4) :
+        cVW.append ( board[j+r][c] )
+      vW.append ( cVW )
+      cVW = []
+  
+  wC = uDW + dW + hW + vW
+  return wC
+
+
+def GetReward ( newState ) :
+  T = determineWinningCoordinates()
+  for t in T :
+    if newState[t[0]] == '1' and newState[t[1]] == '1' and newState[t[2]] == '1' and newState[t[3]] == '1' :
+      return 1.0, -1.0, True
+    elif newState[t[0]] == '2' and newState[t[1]] == '2' and newState[t[2]] == '2' and newState[t[3]] == '2' :      return -1.0, 1.0, True
+  for i in range(42) :
+    if newState[i] == '0' :
+      return 0.0, 0.0, False
+  return 0.0, 0.0, True
+
+
+if __name__ == '__main__' :
+  np.random.seed ( 12345 )
+  main()
+  print ( '' )
