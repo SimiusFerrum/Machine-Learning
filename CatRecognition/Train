@@ -1,0 +1,77 @@
+from __future__ import print_function
+from __future__ import division
+from keras.layers import Dense, Dropout, Flatten
+from keras.constraints import maxnorm
+from keras.layers import Conv2D, MaxPooling2D
+from keras.preprocessing.image import ImageDataGenerator
+from keras.optimizers import SGD
+from keras.callbacks import ModelCheckpoint
+from PIL import Image
+from keras.models import Sequential
+from keras import backend as K
+import keras
+import csv
+import glob
+import time
+import math
+import numpy as np
+import os
+import pickle
+import scipy.ndimage
+import scipy.signal
+import skimage.feature
+import skimage.filters
+import skimage.morphology
+import skimage.util
+import struct
+import sys
+import time
+import warnings
+import csv
+import pandas
+import NeuralNetworkLib
+
+################################################################################
+
+def main () :
+  nClasses = 1
+  epochs = 200
+
+  rows = 150
+  cols = 150
+
+  augment_train_data = ImageDataGenerator ( rescale = 1./255, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True )
+  augment_test_data = ImageDataGenerator ( rescale = 1./255 )
+  training_data_generator = augment_train_data.flow_from_directory ( '/Users/Jared/MachineLearningJ/OutsideProjects/CatFeeder/train', target_size = ( 150, 150 ), batch_size = 16, class_mode = 'binary' )
+  validation_data_generator = augment_test_data.flow_from_directory ( '/Users/Jared/MachineLearningJ/OutsideProjects/CatFeeder/validation', target_size = ( 150, 150 ), batch_size = 16, class_mode = 'binary' )
+
+  if K.image_data_format () == 'channels_first' :
+    inputShape = ( 3, rows, cols )
+  else :
+    inputShape = ( rows, cols, 3 )
+
+  neuralNetwork = Sequential ()
+  neuralNetwork.add ( Conv2D ( 32, kernel_size = ( 3, 3 ), padding = 'same', activation = 'relu', input_shape = inputShape ) )
+  neuralNetwork.add ( MaxPooling2D ( pool_size = ( 2, 2 ) ) )
+  neuralNetwork.add ( Conv2D ( 32, kernel_size = ( 3, 3 ), activation = 'relu', padding = 'same' ) )
+  neuralNetwork.add ( MaxPooling2D ( pool_size = ( 2, 2 ) ) )
+  neuralNetwork.add ( Conv2D ( 64, kernel_size = ( 3, 3 ), padding = 'same', activation = 'relu' ) )
+  neuralNetwork.add ( MaxPooling2D ( pool_size = ( 2, 2 ) ) )
+  neuralNetwork.add ( Flatten () )
+  neuralNetwork.add ( Dense ( 64, activation = 'relu' ) )
+  neuralNetwork.add ( Dropout ( 0.5 ) )
+  neuralNetwork.add ( Dense ( nClasses, activation = 'sigmoid' ) )
+
+  neuralNetwork.compile ( loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['accuracy'] )
+
+  modelCheckpoint = ModelCheckpoint ( filepath = '/Users/Jared/MachineLearningJ/OutsideProjects/CatFeeder/model2.hdf5', monitor = 'val_acc', verbose = 1, save_best_only = True, save_weights_only = False )
+
+  neuralNetwork.fit_generator ( training_data_generator, steps_per_epoch = 12500 // 16, epochs = epochs, verbose = 1, validation_data = validation_data_generator, callbacks = [modelCheckpoint], validation_steps = 12500 // 16 )
+
+  neuralNetwork.save_weights ( 'weights2.h5' )
+
+################################################################################
+
+if __name__ == '__main__' :
+  main ()
+                      
